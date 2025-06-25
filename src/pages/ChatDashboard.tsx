@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { useParams } from "react-router";
 import { ChatMessage } from "~/components/ChatMessage";
-import { ThoughtMessage } from "~/components/ThoughtMessage";
 import { Button } from "~/components/button";
 import { Textarea } from "~/components/textarea";
 import { Loader2 } from "lucide-react";
@@ -12,8 +11,6 @@ import { useNavigate } from 'react-router-dom';
 const ChatDashboard = () => {
   const [textInput, setTextInput] = useState("");
   const [messages, setMessages] = useState<any[]>([]);
-  const [streamedThought] = useState("");
-  const [streamedMessage] = useState("");
   const [isThinking, setIsThinking] = useState(false);
   const [pendingThreadId, setPendingThreadId] = useState<string | null>(null);
 
@@ -39,12 +36,6 @@ const ChatDashboard = () => {
       fetchMessages();
     }
   }, [params.threadId]);
-
-  useEffect(() => {
-    if (!streamedThought && !streamedMessage) {
-      setIsThinking(false);
-    }
-  }, [streamedThought, streamedMessage]);
 
   useEffect(() => {
     if (pendingThreadId && params.threadId !== pendingThreadId) {
@@ -148,7 +139,7 @@ const ChatDashboard = () => {
 
   useLayoutEffect(() => {
     handleScrollToBottom();
-  }, [messages, streamedMessage, streamedThought]);
+  }, [messages]);
 
   return (
     <div className="flex flex-col flex-1 border m-2 rounded-xl bg-chart-2">
@@ -165,13 +156,7 @@ const ChatDashboard = () => {
               thought={message.thought}
             />
           ))}
-
-          {streamedThought && <ThoughtMessage thought={streamedThought} />}
-
-          {streamedMessage && (
-            <ChatMessage role="ASSISTANT" content={streamedMessage} />
-          )}
-
+        
           {isThinking && (
             <div className="flex items-center gap-2 text-gray-600">
               <Loader2 className="animate-spin" size={20} />
