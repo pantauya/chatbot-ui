@@ -12,8 +12,8 @@ import { useNavigate } from 'react-router-dom';
 const ChatDashboard = () => {
   const [textInput, setTextInput] = useState("");
   const [messages, setMessages] = useState<any[]>([]);
-  const [streamedThought, setStreamedThought] = useState("");
-  const [streamedMessage, setStreamedMessage] = useState("");
+  const [streamedThought] = useState("");
+  const [streamedMessage] = useState("");
   const [isThinking, setIsThinking] = useState(false);
   const [pendingThreadId, setPendingThreadId] = useState<string | null>(null);
 
